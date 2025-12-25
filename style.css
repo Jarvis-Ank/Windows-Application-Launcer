@@ -1,0 +1,215 @@
+/* style.css */
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #2e2e2e;
+    /* Dark background */
+    color: #f0f0f0;
+    /* Light text */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+.container {
+    background-color: #3b3b3b;
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    width: 100%;
+    max-width: 700px;
+    /* Wider to accommodate grid */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+h1 {
+    text-align: center;
+    color: #61dafb;
+    margin-bottom: 25px;
+    font-size: 2em;
+}
+
+.app-grid-container {
+    max-height: 450px;
+    /* Increased height for more apps */
+    overflow-y: auto;
+    background-color: #282828;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    border: 1px solid #4a4a4a;
+    padding: 15px;
+    /* Padding inside the scrollable container */
+}
+
+.app-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    /* Responsive grid */
+    gap: 15px;
+    /* Spacing between app tiles */
+    justify-items: center;
+    /* Center items in their grid cells */
+}
+
+.app-tile,
+.add-app-tile {
+    width: 90px;
+    /* Fixed width for squircle base */
+    height: 90px;
+    /* Fixed height for squircle base */
+    background-color: #4a4a4a;
+    /* Default tile background */
+    border-radius: 15px;
+    /* Squircle shape */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.1s ease, background-color 0.2s ease;
+    border: 2px solid transparent;
+    /* For selection border */
+}
+
+.app-tile:hover,
+.add-app-tile:hover {
+    transform: translateY(-3px);
+    background-color: #5a5a5a;
+}
+
+.app-tile.selected {
+    border-color: #61dafb;
+    /* Highlight selected app */
+    background-color: #555555;
+}
+
+.app-icon {
+    width: 50px;
+    /* Icon size */
+    height: 50px;
+    object-fit: contain;
+    /* Ensure icon fits */
+    margin-bottom: 5px;
+}
+
+.app-name {
+    font-size: 0.85em;
+    color: #f0f0f0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    /* Ensure name stays within tile */
+}
+
+.remove-app-overlay {
+    position: absolute;
+    top: -8px;
+    /* Position top-right corner of tile */
+    right: -8px;
+    width: 22px;
+    height: 22px;
+    background-color: #e74c3c;
+    /* Red circle */
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.8em;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    z-index: 10;
+    /* Ensure it's above the icon */
+    visibility: hidden;
+    /* Hidden by default */
+    opacity: 0;
+    transition: visibility 0s, opacity 0.2s ease;
+}
+
+.app-tile.selected .remove-app-overlay {
+    visibility: visible;
+    opacity: 1;
+}
+
+.add-app-tile {
+    background-color: #4a4a4a;
+    border: 2px dashed #61dafb;
+    /* Dashed border for add button */
+    color: #61dafb;
+    font-size: 1em;
+    gap: 5px;
+}
+
+.add-app-tile:hover {
+    background-color: #5a5a5a;
+}
+
+.icon-plus {
+    font-size: 2em;
+    /* Size of the plus icon */
+    line-height: 1;
+}
+
+/* Basic plus icon using CSS */
+.icon-plus::before {
+    content: '+';
+}
+
+.footer-controls {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.launch-button {
+    background-color: #61dafb;
+    color: #282828;
+    border: none;
+    border-radius: 25px;
+    /* Pill shape */
+    padding: 10px 25px;
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer;
+    min-width: 200px;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.launch-button:hover {
+    background-color: #21a1f1;
+    transform: translateY(-2px);
+}
+
+.launch-button:active {
+    transform: translateY(0);
+}
+
+.status {
+    text-align: center;
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    color: #f0f0f0;
+}
+
+.status.success {
+    background-color: #28a745;
+}
+
+.status.error {
+    background-color: #dc3545;
+}

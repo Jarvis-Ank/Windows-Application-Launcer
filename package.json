@@ -1,0 +1,24 @@
+{
+  "name": "winapplauncher",
+  "version": "1.0.0",
+  "description": "A simple Electron app launcher for Windows",
+  "license": "ISC",
+  "author": "Jarvis-Ank",
+  "type": "commonjs",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^39.2.7"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jarvis-Ank/Windows-Application-Launcer.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/Jarvis-Ank/Windows-Application-Launcer/issues"
+  },
+  "homepage": "https://github.com/Jarvis-Ank/Windows-Application-Launcer#readme"
+}

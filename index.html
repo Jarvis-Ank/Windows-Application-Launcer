@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Windows Applications Launcher</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Ignition Point</h1>
+
+        <div class="app-grid-container">
+            <div id="appGrid" class="app-grid">
+                <!-- App icons will be dynamically added here -->
+                <div class="add-app-tile" id="addAppButton">
+                    <span class="icon-plus"></span>
+                    <span>Add App</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-controls">
+            <button id="launchSelectedButton" class="launch-button">
+                Launch Selected (<span id="selectedCount">0</span>)
+            </button>
+        </div>
+
+        <p id="statusMessage" class="status"></p>
+    </div>
+
+    <script src="renderer.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,8 @@
+# Node.js and Electron project specifics
+node_modules/
+npm-debug.log*
+
+# Build/Packaging output (if you decide to package your app)
+out/
+dist/
+build/
