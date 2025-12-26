@@ -3,31 +3,151 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Windows Applications Launcher</title>
+    <title>Launch Multiple Apps</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Font Awesome for icons (optional, but makes icon usage easier) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self' data:;
+    img-src 'self' data: https://*;
+    script-src 'self';
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+    font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com;
+    connect-src 'self' https://*;
+">
 </head>
 
-<body>
-    <div class="container">
-        <h1>Ignition Point</h1>
-
-        <div class="app-grid-container">
-            <div id="appGrid" class="app-grid">
-                <!-- App icons will be dynamically added here -->
-                <div class="add-app-tile" id="addAppButton">
-                    <span class="icon-plus"></span>
-                    <span>Add App</span>
+<body class="light-theme">
+    <div class="app-window">
+        <!-- Custom Title Bar / Header -->
+        <header class="title-bar">
+            <div class="title-bar-left">
+                <img src="./assets/app-logo.png" alt="App Logo" class="app-logo">
+                <div class="app-title">
+                    <h2>Launch Multiple Apps</h2>
+                    <p>Select apps to launch together</p>
                 </div>
             </div>
-        </div>
+            <div class="title-bar-center">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search apps...">
+                </div>
+            </div>
+            <div class="title-bar-right">
+                <button class="icon-button" title="List View"><i class="fas fa-list"></i></button>
+                <button class="icon-button active" title="Grid View"><i class="fas fa-th-large"></i></button>
+                <button id="themeToggleButton" class="icon-button" title="Toggle Theme">
+                    <i class="fas fa-moon"></i> <!-- Default to moon for light mode, or sun for dark mode -->
+                </button>
+                <button id="launchSelectedButton" class="launch-button">
+                    <i class="fas fa-rocket"></i> Launch <span id="selectedCount" class="badge">0</span>
+                </button>
+            </div>
+        </header>
 
-        <div class="footer-controls">
-            <button id="launchSelectedButton" class="launch-button">
-                Launch Selected (<span id="selectedCount">0</span>)
-            </button>
-        </div>
+        <main class="content-area">
+            <!-- Your Groups Section -->
+            <section class="groups-section">
+                <div class="section-header">
+                    <h3><i class="fas fa-folder"></i> GROUPS</h3>
+                    <button id="saveGroupButton" class="button-outline"><i class="fas fa-plus"></i> Save
+                        Selection</button>
+                </div>
+                <div id="groupsContainer" class="groups-list">
+                    <div class="empty-state">
+                        <i class="fas fa-folder-open"></i>
+                        <p>No groups yet. Select apps and save them as a group.</p>
+                    </div>
+                    <!-- Groups will be rendered here -->
+                </div>
+            </section>
 
-        <p id="statusMessage" class="status"></p>
+            <!-- Available Apps Section -->
+            <section class="available-apps-section">
+                <div class="section-header">
+                    <h3>AVAILABLE APPS <span class="selected-summary" id="availableAppsSummary">0 / 0 selected</span>
+                    </h3>
+                    <div class="app-controls">
+                        <button id="selectAllButton" class="button-outline">Select All</button>
+                        <button id="clearSelectionButton" class="button-outline"><i class="fas fa-times"></i>
+                            Clear</button>
+                        <button id="addAppButton" class="button-primary"><i class="fas fa-plus"></i> Add App</button>
+                    </div>
+                </div>
+                <div class="app-grid-container">
+                    <div id="appGrid" class="app-grid">
+                        <!-- App tiles will be dynamically added here -->
+                    </div>
+                </div>
+            </section>
+        </main>
+      
+    </div>
+
+    <!-- Modals -->
+
+    <!-- Save Group Modal -->
+    <div id="saveGroupModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Save as Group</h2>
+                <button class="close-modal-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-info-badge">
+                    <span id="modalSelectedCount">1</span> app selected
+                </div>
+                <label for="groupNameInput">Group Name</label>
+                <input type="text" id="groupNameInput" placeholder="e.g., Work Apps, Development, Gaming...">
+
+                <label>Accent Color</label>
+                <div class="color-picker">
+                    <div class="color-option selected" data-color="#61dafb"></div>
+                    <div class="color-option" data-color="#28a745"></div>
+                    <div class="color-option" data-color="#9b59b6"></div>
+                    <div class="color-option" data-color="#e67e22"></div>
+                    <div class="color-option" data-color="#e74c3c"></div>
+                </div>
+
+                <label>Preview</label>
+                <div class="group-preview" id="groupPreview">
+                    <div class="group-preview-icon" style="background-color: #61dafb;"></div>
+                    <div class="group-preview-text">
+                        <span id="previewGroupName">Your Group</span>
+                        <span id="previewAppCount">0 apps</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="button-secondary close-modal-btn">Cancel</button>
+                <button id="createGroupButton" class="button-primary">Create Group</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Launch Confirmation Modal -->
+    <div id="launchConfirmModal" class="modal-overlay">
+        <div class="modal-content small-modal">
+            <div class="modal-header">
+                <h2><img src="./assets/app-logo.png" alt="App Logo" class="modal-logo"> Launching Apps</h2>
+                <button class="close-modal-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-info-badge">
+                    <span id="launchModalSelectedCount">1</span> app selected
+                </div>
+                <ul id="launchAppList" class="launch-app-list">
+                    <!-- Apps to be launched will appear here -->
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button class="button-secondary close-modal-btn">Cancel</button>
+                <button id="confirmLaunchButton" class="button-primary">
+                    <i class="fas fa-rocket"></i> Confirm Launch
+                </button>
+            </div>
+        </div>
     </div>
 
     <script src="renderer.js"></script>
